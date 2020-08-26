@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest
+  schemaVersion="1.1"
+  templateType="Project" xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+  <metadata>
+    <name>HIATCompleteModuleTemplate</name>
+    <id>883f59b4-cfba-4318-8123-6177b05d4d59</id>
+    <version>1.0.0</version>
+    <title>HIATCompleteModuleTemplate</title>
+    <description>Template plaster for creating a complete module skeleton</description>
+    <author>LIENHARD Laurent</author>
+    <tags>Plaster, Template, Module</tags>
+  </metadata>
+  <parameters>
+    <parameter name='ModuleName' type='text' prompt='`r`nEnter the name of the module' />
+    <parameter name='ModuleDescription' type='text' prompt='`r`nEnter a description of the module (required for publishing to the PowerShell Gallery)' />
+    <parameter name='AuthorName' type='user-fullname' prompt='`r`nEnter your full name' />
+    <parameter name='AuthorEmail' type='user-email' prompt='`r`nEnter your email address' />
+    <parameter name='ModuleVersion' type='text' prompt='`r`nEnter the version number for the module' default='0.0.1' />
+    <parameter name='Company' type='text' prompt='`r`nEnter the company name' default='None' />
+
+    <parameter name='ModuleFolders' type = 'multichoice' prompt='`r`nPlease select folders to include' default='0,1,2,3'>
+      <choice label='&amp;Functions' value='functions' help='Adds a function folder to module'/>
+      <choice label='&amp;Classes' value='Classes' help='Adds a Classes folder to module'/>
+      <choice label='&amp;Enums' value='Enums' help='Adds a Enums folder to module'/>
+      <choice label='&amp;Ressources' value='Ressources' help='Adds a Ressources folder to module'/>
+    </parameter>
+  </parameters>
+  <content>
+    <message>____________________________________</message>
+    <message>`r`n-> Creating your root folders for module : ${PLASTER_PARAM_ModuleName}</message>
+    <message>____________________________________</message>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}' />
+
+    <message>`r`n-> Creating module manifest</message>
+    <newModuleManifest destination='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_ModuleVersion' rootModule='.\${PLASTER_PARAM_ModuleName}.psm1' author='$PLASTER_PARAM_AuthorName' companyName='${PLASTER_PARAM_Company}' description='$PLASTER_PARAM_ModuleDescription' encoding='UTF8-NoBOM'/>
+
+    <message>`r`n-> Creating your source code folders </message>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Private' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"' />
+    <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Private\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"' />
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Public' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"'/>
+    <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Public\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"'/>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"' />
+    <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"' />
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Enums' condition='$PLASTER_PARAM_ModuleFolders -contains "Enums"' />
+    <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Enums\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Enums"' />
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Ressources' condition='$PLASTER_PARAM_ModuleFolders -contains "Ressources"' />
+    <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Ressources\Ressource1\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Ressources"' />
+    <file source='github\gitignore' destination='${PLASTER_PARAM_ModuleName}\.gitignore'/>
+    <file source='_requirements.psd1' destination='${PLASTER_PARAM_ModuleName}\requirements.psd1'/>
+  </content>
+</plasterManifest>
