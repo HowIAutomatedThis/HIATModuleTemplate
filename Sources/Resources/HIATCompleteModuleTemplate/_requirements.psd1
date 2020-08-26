@@ -1,7 +1,6 @@
 ﻿@{
-    PSDependOptions   = @{
-        Target             = '$PWD/Dependencies'
-        AddToPath          = $true
+    PSDependOptions = @{
+        Target             = 'CurrentUser'
         SkipPublisherCheck = $true
     }
     'BuildHelpers'    = @{

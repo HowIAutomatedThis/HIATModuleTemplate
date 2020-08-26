@@ -17,7 +17,7 @@
     <parameter name='AuthorName' type='user-fullname' prompt='`r`nEnter your full name' />
     <parameter name='AuthorEmail' type='user-email' prompt='`r`nEnter your email address' />
     <parameter name='ModuleVersion' type='text' prompt='`r`nEnter the version number for the module' default='0.0.1' />
-    <parameter name='Company' type='text' prompt='`r`nEnter the company name' default='None' />
+    <parameter name='Company' type='text' prompt='`r`nEnter the company name' default='MyPersonalCompany' />
 
     <parameter name='ModuleFolders' type = 'multichoice' prompt='`r`nPlease select folders to include' default='0,1,2,3'>
       <choice label='&amp;Functions' value='functions' help='Adds a function folder to module'/>
@@ -33,20 +33,24 @@
     <file source='' destination='${PLASTER_PARAM_ModuleName}' />
 
     <message>`r`n-> Creating module manifest</message>
-    <newModuleManifest destination='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_ModuleVersion' rootModule='.\${PLASTER_PARAM_ModuleName}.psm1' author='$PLASTER_PARAM_AuthorName' companyName='${PLASTER_PARAM_Company}' description='$PLASTER_PARAM_ModuleDescription' encoding='UTF8-NoBOM'/>
+      <newModuleManifest destination='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_ModuleVersion' rootModule='.\${PLASTER_PARAM_ModuleName}.psm1' author='$PLASTER_PARAM_AuthorName' companyName='${PLASTER_PARAM_Company}' description='$PLASTER_PARAM_ModuleDescription' encoding='UTF8-NoBOM'/>
+
 
     <message>`r`n-> Creating your source code folders </message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Private' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"' />
-    <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Private\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"' />
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Public' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"'/>
-    <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Public\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"'/>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"' />
-    <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"' />
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Enums' condition='$PLASTER_PARAM_ModuleFolders -contains "Enums"' />
-    <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Enums\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Enums"' />
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Ressources' condition='$PLASTER_PARAM_ModuleFolders -contains "Ressources"' />
-    <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Ressources\Ressource1\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Ressources"' />
-    <file source='github\gitignore' destination='${PLASTER_PARAM_ModuleName}\.gitignore'/>
     <file source='_requirements.psd1' destination='${PLASTER_PARAM_ModuleName}\requirements.psd1'/>
+    <file source='_build.ps1' destination='${PLASTER_PARAM_ModuleName}\build.ps1'/>
+
+    <message>`r`n-> Creating your github files </message>
+      <file source='github\gitignore' destination='${PLASTER_PARAM_ModuleName}\.gitignore'/>
+       <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Private\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"' />
+      <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Public\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"'/>
+      <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"' />
+      <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Enums\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Enums"' />
+      <file source='github\gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Ressources\Ressource1\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Ressources"' />
   </content>
 </plasterManifest>
