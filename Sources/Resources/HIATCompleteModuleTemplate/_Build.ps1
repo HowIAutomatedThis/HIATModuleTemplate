@@ -7,11 +7,11 @@ param(
 )
 
 Clear-Host
-Write-Verbose "[BUILD][START]"
+Write-Verbose ('[{0:O}] [BUILD][START]' -f (get-date))
 
 # Bootstrap dependencies
 if ($Bootstrap.IsPresent) {
-    Write-Verbose "[BUILD] Installing module dependencies..."
+    Write-Verbose ('[{0:O}] [BUILD] Installing module dependencies...' -f (get-date))
     Get-PackageProvider -Name Nuget -ForceBootstrap | Out-Null
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
     if ((Test-Path -Path ./requirements.psd1)) {
@@ -22,9 +22,15 @@ if ($Bootstrap.IsPresent) {
         Invoke-PSDepend -Path './requirements.psd1' -Install -Force -WarningAction SilentlyContinue
     }
     else {
-        Write-Warning "No [requirements.psd1] found. Skipping build dependency installation."
+        Write-Warning ('[{0:O}] No [requirements.psd1] found. Skipping build dependency installation.' -f (get-date))
     }
 }
 
-Write-Verbose "[BUILD] Build Environment variable..."
-Set-BuildEnvironment -Force
+Write-Verbose ('[{0:O}] [BUILD] Build Environment variable...' -f (get-date))
+if (!(Get-ChildItem Env:BH*)) {
+    Write-Verbose ('[{0:O}] [BUILD] Set Build Environment variable...' -f (get-date))
+    Set-BuildEnvironment
+}
+else {
+    Write-Verbose ('[{0:O}] [BUILD] Build Environment variable already set..' -f (get-date))
+}
