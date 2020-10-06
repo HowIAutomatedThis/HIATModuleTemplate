@@ -34,3 +34,14 @@ if (!(Get-ChildItem Env:BH*)) {
 else {
     Write-Verbose ('[{0:O}] [BUILD] Build Environment variable already set..' -f (get-date))
 }
+
+Write-Verbose ('[{0:O}] [BUILD] Invoking build action {1}' -f (get-date), $Task)
+$Error.Clear()
+Invoke-Build -Task $Task -File ($env:BHModulePath + "\" + $env:BHProjectName + ".Build.ps1") -Result 'Result'
+if ($Result.Error) {
+    $Error[-1].ScriptStackTrace | Out-String
+    Write-Warning ('[{0:O}] [BUILD][END] With Error' -f (get-date))
+    exit 1
+}
+Write-Verbose ('[{0:O}] [BUILD][END] with no error' -f (get-date))
+exit 0
