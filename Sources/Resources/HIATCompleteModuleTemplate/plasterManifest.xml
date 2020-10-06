@@ -44,6 +44,12 @@
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Ressources' condition='$PLASTER_PARAM_ModuleFolders -contains "Ressources"' />
     <file source='_requirements.psd1' destination='${PLASTER_PARAM_ModuleName}\requirements.psd1'/>
     <file source='_build.ps1' destination='${PLASTER_PARAM_ModuleName}\build.ps1'/>
+    <templateFile source='ModuleName.Build.ps1' destination='${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.Build.ps1' />
+
+    <message>`r`n-> Creating BuildTasks Folder </message>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\BuildTasks'/>
+    <message>`r`n-> Add BuildTasks Scripts</message>
+    <templateFile source='BuildTasks\template.02_Clean.Task.ps1' destination='${PLASTER_PARAM_ModuleName}\BuildTasks\02_Clean.Task.ps1'/>
 
     <message>`r`n-> Creating your github files </message>
       <file source='github\gitignore' destination='${PLASTER_PARAM_ModuleName}\.gitignore'/>
