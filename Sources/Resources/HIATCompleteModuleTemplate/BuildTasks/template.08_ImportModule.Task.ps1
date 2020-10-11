@@ -1,39 +1,40 @@
-﻿task GenerateMarkdown {
-    Write-Verbose ('[{0:O}] [GENERATEMARKDOWN][START]' -f (get-date))
+function ImportModule {
+    param(
+        [string]$path,
+        [switch]$PassThru
+    )
+
+
+    if (-not(Test-Path -Path $path)) {
+        "Cannot find [$path]."
+        Write-Error -Message "Could not find module manifest [$path]"
+    }
+    else {
+        $file = Get-Item $path
+        $name = $file.BaseName
+
+        $loaded = Get-Module -Name $name -All -ErrorAction Ignore
+        if ($loaded) {
+            "Unloading Module [$name] from a previous import..."
+            $loaded | Remove-Module -Force
+        }
+
+        "Importing Module [$name] from [$($file.fullname)]..."
+        Import-Module -Name $file.fullname -Force -PassThru:$PassThru
+    }
+}
+
+task ImportModule {
     $OutputPath = Join-Path $env:BHBuildOutput -ChildPath $env:BHProjectName
     $ModuleBuildPsd1 = Join-Path $OutputPath -ChildPath "$($env:BHProjectName).psd1"
 
-    if (Test-Path -Path $ModuleBuildPsd1) {
-        Write-Verbose ('[{0:O}] [GENERATEMARKDOWN] Importing module {1}' -f (get-date), $ModuleBuildPsd1)
-        $module = Import-Module -FullyQualifiedName $ModuleBuildPsd1 -Force -PassThru
-
-        try {
-            if ($module.ExportedFunctions.Count -eq 0) {
-                Write-Verbose ('[{0:O}] [GENERATEMARKDOWN] No functions have been exported for this module. Skipping Markdown generation...' -f (get-date))
-                return
-            }
-
-            $params = @{
-                AlphabeticParamsOrder = $true
-                ErrorAction           = 'SilentlyContinue'
-                Locale                = 'en-US'
-                Module                = $env:BHProjectName
-                OutputFolder          = "$OutputPath\Docs\en-US"
-                WithModulePage        = $true
-            }
-
-            # ErrorAction is set to SilentlyContinue so this
-            # command will not overwrite an existing Markdown file.
-            Write-Verbose ('[{0:O}] [GENERATEMARKDOWN] Creating new Markdown help for {1}' -f (get-date), $env:BHProjectName)
-            $null = New-MarkdownHelp @params
-        }
-        finally {
-            Remove-Module -Name $env:BHProjectName -Force
-        }
-
+    Write-Verbose ('[{0:O}] [IMPORTMODULE][START]' -f (get-date))
+    if (test-path -Path $ModuleBuildPsd1) {
+        Write-Output ('[{0:O}] [IMPORTMODULE] Importing module {1}' -f (get-date), $ModuleBuildPsd1)
+        ImportModule -Path $ModuleBuildPsd1
+    } else {
+        Write-Verbose ('[{0:O}] No module to import' -f (get-date))
     }
-    else {
-        Write-Verbose ('[{0:O}] [GENERATEMARKDOWN] No module to import' -f (get-date))
-    }
-    Write-Verbose ('[{0:O}] [GENERATEMARKDOWN][END]' -f (get-date))
+    Write-Verbose ('[{0:O}] [IMPORTMODULE][END]' -f (get-date))
 }
+
