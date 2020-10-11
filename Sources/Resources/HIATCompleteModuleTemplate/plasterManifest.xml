@@ -51,6 +51,7 @@
     <message>`r`n-> Add BuildTasks Scripts</message>
     <templateFile source='BuildTasks\template.02_Clean.Task.ps1' destination='${PLASTER_PARAM_ModuleName}\BuildTasks\02_Clean.Task.ps1'/>
     <templateFile source='BuildTasks\template.03_BuildModule.Task.ps1' destination='${PLASTER_PARAM_ModuleName}\BuildTasks\03_BuildModule.Task.ps1'/>
+    <templateFile source='BuildTasks\template.04_BuildManifest.Task.ps1' destination='${PLASTER_PARAM_ModuleName}\BuildTasks\04_BuildManifest.Task.ps1'/>
 
 
     <message>`r`n-> Creating your github files </message>

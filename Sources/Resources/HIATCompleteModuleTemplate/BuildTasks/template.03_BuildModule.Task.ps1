@@ -42,7 +42,7 @@
         }
     }
     else {
-        Write-Warning ('[{0:O}] Nothing to compile' -f (get-date))
+        Write-Verbose ('[{0:O}] Nothing to compile' -f (get-date))
     }
     Write-Verbose ('[{0:O}] [BUILDMODULE][END]' -f (get-date))
 }
