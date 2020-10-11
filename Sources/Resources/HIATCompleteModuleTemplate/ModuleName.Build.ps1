@@ -6,10 +6,10 @@ Get-ChildItem -Path $env:BHProjectPath\BuildTasks\*.Task.ps1 | ForEach-Object {
     . $_.FullName
 }
 
-task Default Clean, BuildModule, BuildManifest, Analyze, UnitTests, GenerateMarkdown, GenerateHelp
+task Default Clean, BuildModule, BuildManifest #, Analyze, UnitTests, GenerateMarkdown, GenerateHelp
 task Build Clean, BuildModule, BuildManifest
-task PSAnalyse Analyze
-task Test build, ImportModule, UnitTests
-task Helpify ImportModule, GenerateMarkdown, GenerateHelp
+#task PSAnalyse Analyze
+#task Test build, ImportModule, UnitTests
+task Helpify ImportModule, GenerateMarkdown #, GenerateHelp
 
 Write-Verbose ('[{0:O}] [INVOKEBUILMODULE][END]' -f (get-date))
