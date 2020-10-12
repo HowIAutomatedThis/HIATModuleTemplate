@@ -13,4 +13,7 @@
     'InvokeBuild' = @{
         Version = '5.6.2'
     }
+    'platyPS' = @{
+        Version = '0.14.0'
+    }
 }
