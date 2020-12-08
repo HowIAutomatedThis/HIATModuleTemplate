@@ -16,4 +16,7 @@
     'platyPS' = @{
         Version = '0.14.0'
     }
+    'Pester'       = @{
+        Version = '5.0.4'
+    }
 }
